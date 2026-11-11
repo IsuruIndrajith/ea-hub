@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Ea extends Model
 {
@@ -32,5 +33,21 @@ class Ea extends Model
     public function setReview(): HasOne
     {
         return $this->hasOne(SetReview::class);
+    }
+    public function generatedContents(): HasMany
+    {
+        return $this->hasMany(GeneratedContent::class);
+    }
+
+    public function generatedProductPage(): HasOne
+    {
+        return $this->hasOne(GeneratedContent::class)
+            ->where('type', GeneratedContent::TYPE_PRODUCT_PAGE);
+    }
+
+    public function generatedSetReview(): HasOne
+    {
+        return $this->hasOne(GeneratedContent::class)
+            ->where('type', GeneratedContent::TYPE_SET_REVIEW);
     }
 }
