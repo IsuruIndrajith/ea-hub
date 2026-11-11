@@ -57,3 +57,24 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## EA Hub panel access
+
+Run the migrations and create the built-in roles:
+
+```bash
+php artisan migrate
+php artisan db:seed --class=Database\Seeders\RoleSeeder
+```
+
+After creating your first panel user, assign the administrator role to that account:
+
+```bash
+php artisan tinker
+```
+
+```php
+App\Models\User::where('email', 'you@example.com')->firstOrFail()->assignRole('admin');
+```
+
+Admins can create editor accounts from **Admin > Users**. Public registration is disabled. Uploaded EA images are stored on Laravel's public disk; run `php artisan storage:link` once if the `public/storage` link does not exist.

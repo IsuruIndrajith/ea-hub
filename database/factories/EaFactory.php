@@ -18,7 +18,13 @@ class EaFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->unique()->words(3, true),
+            'version' => '1.0',
+            'vendor_url' => fake()->url(),
+            'primary_keywords' => ['forex robot', 'expert advisor'],
+            'secondary_keywords' => [],
+            'platform' => 'MT5',
+            'product_type' => 'Expert Advisor',
         ];
     }
 }
