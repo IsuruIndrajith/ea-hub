@@ -9,8 +9,8 @@ use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Get;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
@@ -33,7 +33,9 @@ class EaForm
                     TextInput::make('platform')->placeholder('MT4, MT5, or Both'),
                     TextInput::make('product_page_url')->url(),
                     TextInput::make('developer_name'),
-                    TagsInput::make('primary_keywords')->required()->minItems(1)->columnSpanFull(),
+                    TagsInput::make('primary_keywords')->required()->rules(['array', 'min:1'])->validationMessages([
+                        'min' => 'Add at least one primary keyword.',
+                    ])->columnSpanFull(),
                     TagsInput::make('secondary_keywords')->columnSpanFull(),
                 ]),
                 Section::make('Signals')->schema([
