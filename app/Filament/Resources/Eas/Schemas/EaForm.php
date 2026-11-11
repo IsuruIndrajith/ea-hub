@@ -21,23 +21,24 @@ class EaForm
     {
         return $schema
             ->components([
-                Section::make('EA details')->columns(2)->schema([
-                    TextInput::make('name')->required()->maxLength(255)->live(onBlur: true)
-                        ->rules(function (Get $get, ?Model $record): array {
-                            $rule = Rule::unique('eas', 'name')->where('version', $get('version'));
+                Section::make('EA details')
+                    ->description('Only the EA name is required. Add the other details when they are available.')
+                    ->columns(2)
+                    ->schema([
+                        TextInput::make('name')->required()->maxLength(255)->live(onBlur: true)
+                            ->rules(function (Get $get, ?Model $record): array {
+                                $rule = Rule::unique('eas', 'name')->where('version', $get('version'));
 
-                            return [$record ? $rule->ignore($record->getKey()) : $rule];
-                        }),
-                    TextInput::make('version')->required()->maxLength(255)->live(onBlur: true),
-                    TextInput::make('vendor_url')->label('Vendor site URL')->url()->required()->maxLength(255),
-                    TextInput::make('platform')->placeholder('MT4, MT5, or Both'),
-                    TextInput::make('product_page_url')->url(),
-                    TextInput::make('developer_name'),
-                    TagsInput::make('primary_keywords')->required()->rules(['array', 'min:1'])->validationMessages([
-                        'min' => 'Add at least one primary keyword.',
-                    ])->columnSpanFull(),
-                    TagsInput::make('secondary_keywords')->columnSpanFull(),
-                ]),
+                                return [$record ? $rule->ignore($record->getKey()) : $rule];
+                            }),
+                        TextInput::make('version')->nullable()->maxLength(255)->live(onBlur: true),
+                        TextInput::make('vendor_url')->label('Vendor site URL')->nullable()->url()->maxLength(255),
+                        TextInput::make('platform')->placeholder('MT4, MT5, or Both'),
+                        TextInput::make('product_page_url')->url(),
+                        TextInput::make('developer_name'),
+                        TagsInput::make('primary_keywords')->nullable()->rules(['nullable', 'array'])->columnSpanFull(),
+                        TagsInput::make('secondary_keywords')->columnSpanFull(),
+                    ]),
                 Section::make('Signals')->schema([
                     Repeater::make('signals')->relationship()->deletable(fn () => auth()->user()?->hasRole('admin') ?? false)->schema([
                         Select::make('type')->options(['mql5' => 'MQL5', 'myfxbook' => 'MyFxBook'])->required(),

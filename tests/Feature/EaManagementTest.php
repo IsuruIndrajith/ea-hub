@@ -34,6 +34,17 @@ class EaManagementTest extends TestCase
         $this->assertSame(['trend trading'], $ea->fresh()->primary_keywords);
     }
 
+    public function test_ea_can_be_created_with_only_its_name(): void
+    {
+        $ea = Ea::query()->create(['name' => 'Minimal EA']);
+
+        $this->assertSame('Minimal EA', $ea->fresh()->name);
+        $this->assertNull($ea->fresh()->version);
+        $this->assertNull($ea->fresh()->vendor_url);
+        $this->assertNull($ea->fresh()->primary_keywords);
+        $this->assertCount(0, $ea->signals);
+    }
+
     public function test_only_active_users_with_hub_roles_can_access_the_panel(): void
     {
         $this->seed(RoleSeeder::class);
