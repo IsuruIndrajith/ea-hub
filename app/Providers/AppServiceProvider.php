@@ -2,16 +2,18 @@
 
 namespace App\Providers;
 
+use App\Services\DeepSeekClient;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
-        //
+        $this->app->singleton(DeepSeekClient::class, fn () => new DeepSeekClient(
+            apiKey:  config('services.deepseek.api_key', ''),
+            baseUrl: config('services.deepseek.base_url', 'https://api.deepseek.com'),
+            model:   config('services.deepseek.model', 'deepseek-chat'),
+        ));
     }
 
     /**
@@ -19,6 +21,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        if (! app()->runningInConsole()) {
+            set_time_limit(300);
+        }
     }
 }

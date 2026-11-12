@@ -94,6 +94,7 @@ class Ea extends Model implements HasMedia
         $this->addMediaCollection('live_signal_images')->useDisk('public');
         $this->addMediaCollection('myfxbook_review_images')->useDisk('public');
         $this->addMediaCollection('other_result_images')->useDisk('public');
+        $this->addMediaCollection('set_file_images')->useDisk('public');
     }
 
     protected static function booted(): void

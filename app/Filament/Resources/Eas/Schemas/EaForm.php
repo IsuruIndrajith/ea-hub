@@ -62,6 +62,11 @@ class EaForm
                     SpatieMediaLibraryFileUpload::make('myfxbook_review_images')->collection('myfxbook_review_images')->multiple()->reorderable()->deletable(fn () => auth()->user()?->hasRole('admin') ?? false)->image()->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])->maxSize(5120),
                     SpatieMediaLibraryFileUpload::make('other_result_images')->collection('other_result_images')->label('Other result images')->multiple()->reorderable()->deletable(fn () => auth()->user()?->hasRole('admin') ?? false)->image()->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])->maxSize(5120)->columnSpanFull(),
                 ]),
+                Section::make('SET file images')
+                    ->description('Screenshots of the EA input parameters panel used by the set review content generator.')
+                    ->schema([
+                        SpatieMediaLibraryFileUpload::make('set_file_images')->collection('set_file_images')->label('SET file screenshots')->multiple()->reorderable()->deletable(fn () => auth()->user()?->hasRole('admin') ?? false)->image()->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])->maxSize(5120)->columnSpanFull(),
+                    ]),
             ]);
     }
 }

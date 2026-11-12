@@ -29,12 +29,12 @@ class PromptTemplate extends Model
         return $query->where('is_active', true);
     }
 
-    /** Latest active template for a given type + name pair. */
-    public static function activeFor(string $type, string $name = 'Master Prompt'): ?self
+    /** Latest active template for a given type. Pass $name to narrow to a specific template name. */
+    public static function activeFor(string $type, ?string $name = null): ?self
     {
         return static::query()
             ->where('type', $type)
-            ->where('name', $name)
+            ->when($name, fn ($q) => $q->where('name', $name))
             ->where('is_active', true)
             ->latest('id')
             ->first();
