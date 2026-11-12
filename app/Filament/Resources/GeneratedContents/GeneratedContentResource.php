@@ -64,8 +64,12 @@ class GeneratedContentResource extends Resource
         return $schema->components([
             TextEntry::make('ea.name')->label('EA'),
             TextEntry::make('type')->badge(),
-            TextEntry::make('content')->formatStateUsing(fn ($state) => json_encode($state, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE))->columnSpanFull(),
-            TextEntry::make('updated_at')->dateTime(),
+            TextEntry::make('updated_at')->label('Last generated')->dateTime(),
+            TextEntry::make('rendered_content')
+                ->label('')
+                ->state(fn ($record) => view('filament.generated-content-view', compact('record'))->render())
+                ->html()
+                ->columnSpanFull(),
         ]);
     }
 
