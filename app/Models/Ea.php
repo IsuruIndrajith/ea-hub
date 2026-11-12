@@ -26,7 +26,7 @@ class Ea extends Model implements HasMedia
         'account_type', 'min_deposit', 'recommended_deposit',
         'recommended_leverage', 'vps_requirement', 'developer_name',
         'developer_background', 'myfxbook_link', 'myfxbook_gain', 'product_type',
-        'primary_keywords', 'secondary_keywords', 'created_by', 'updated_by',
+        'primary_keywords', 'secondary_keywords', 'developer_profile_link', 'created_by', 'updated_by',
     ];
 
     protected $casts = [
@@ -93,6 +93,7 @@ class Ea extends Model implements HasMedia
     {
         $this->addMediaCollection('live_signal_images')->useDisk('public');
         $this->addMediaCollection('myfxbook_review_images')->useDisk('public');
+        $this->addMediaCollection('other_result_images')->useDisk('public');
     }
 
     protected static function booted(): void

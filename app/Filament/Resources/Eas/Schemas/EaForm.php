@@ -36,6 +36,7 @@ class EaForm
                         TextInput::make('platform')->placeholder('MT4, MT5, or Both'),
                         TextInput::make('product_page_url')->url(),
                         TextInput::make('developer_name'),
+                        TextInput::make('developer_profile_link')->label('Developer profile URL')->nullable()->url()->maxLength(255),
                         TagsInput::make('primary_keywords')->nullable()->rules(['nullable', 'array'])->columnSpanFull(),
                         TagsInput::make('secondary_keywords')->columnSpanFull(),
                     ]),
@@ -59,19 +60,7 @@ class EaForm
                 Section::make('Signal evidence')->columns(2)->schema([
                     SpatieMediaLibraryFileUpload::make('live_signal_images')->collection('live_signal_images')->multiple()->reorderable()->deletable(fn () => auth()->user()?->hasRole('admin') ?? false)->image()->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])->maxSize(5120),
                     SpatieMediaLibraryFileUpload::make('myfxbook_review_images')->collection('myfxbook_review_images')->multiple()->reorderable()->deletable(fn () => auth()->user()?->hasRole('admin') ?? false)->image()->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])->maxSize(5120),
-                ]),
-                Section::make('EA specifications')->columns(2)->schema([
-                    TagsInput::make('supported_pairs'),
-                    TextInput::make('recommended_timeframe'),
-                    TextInput::make('strategy_type'),
-                    TextInput::make('account_type'),
-                    TextInput::make('min_deposit'),
-                    TextInput::make('recommended_deposit'),
-                    TextInput::make('recommended_leverage'),
-                    TextInput::make('vps_requirement'),
-                    TextInput::make('myfxbook_gain'),
-                    TextInput::make('product_type'),
-                    Textarea::make('developer_background')->columnSpanFull(),
+                    SpatieMediaLibraryFileUpload::make('other_result_images')->collection('other_result_images')->label('Other result images')->multiple()->reorderable()->deletable(fn () => auth()->user()?->hasRole('admin') ?? false)->image()->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])->maxSize(5120)->columnSpanFull(),
                 ]),
             ]);
     }
