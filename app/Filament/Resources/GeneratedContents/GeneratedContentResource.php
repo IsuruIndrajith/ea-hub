@@ -20,7 +20,17 @@ class GeneratedContentResource extends Resource
 {
     protected static ?string $model = GeneratedContent::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedSparkles;
+
+    protected static \UnitEnum|string|null $navigationGroup = 'Content';
+
+    protected static ?string $navigationLabel = 'Generated Content';
+
+    protected static ?string $modelLabel = 'Generated Content';
+
+    protected static ?string $pluralModelLabel = 'Generated Content';
+
+    protected static ?int $navigationSort = 20;
 
     protected static ?string $recordTitleAttribute = 'ea_id';
 

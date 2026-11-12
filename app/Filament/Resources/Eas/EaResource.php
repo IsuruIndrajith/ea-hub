@@ -24,7 +24,15 @@ class EaResource extends Resource
 {
     protected static ?string $model = Ea::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCpuChip;
+
+    protected static \UnitEnum|string|null $navigationGroup = 'Expert Advisors';
+
+    protected static ?string $modelLabel = 'EA';
+
+    protected static ?string $pluralModelLabel = 'EAs';
+
+    protected static ?int $navigationSort = 10;
 
     protected static ?string $recordTitleAttribute = 'name';
 

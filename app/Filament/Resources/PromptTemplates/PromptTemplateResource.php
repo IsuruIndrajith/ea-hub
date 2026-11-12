@@ -18,7 +18,13 @@ class PromptTemplateResource extends Resource
 {
     protected static ?string $model = PromptTemplate::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentText;
+
+    protected static \UnitEnum|string|null $navigationGroup = 'Content';
+
+    protected static ?string $navigationLabel = 'Prompt Templates';
+
+    protected static ?int $navigationSort = 30;
 
     protected static ?string $recordTitleAttribute = 'name';
 
