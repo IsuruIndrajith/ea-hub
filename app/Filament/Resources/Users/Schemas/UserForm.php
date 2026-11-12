@@ -16,7 +16,7 @@ class UserForm
                 TextInput::make('name')->required()->maxLength(255),
                 TextInput::make('email')->email()->required()->unique(ignoreRecord: true),
                 TextInput::make('password')->password()->revealable()->required(fn (string $operation): bool => $operation === 'create')->dehydrated(fn ($state): bool => filled($state)),
-                Select::make('roles')->relationship('roles', 'name')->multiple()->preload()->required()->options(['admin' => 'Admin', 'editor' => 'Editor']),
+                Select::make('roles')->relationship('roles', 'name')->multiple()->preload()->required(),
                 Toggle::make('is_active')->label('Active')->default(true),
             ]);
     }
