@@ -24,6 +24,11 @@ class GeneratedContentResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'ea_id';
 
+    public static function canCreate(): bool
+    {
+        return false;
+    }
+
     public static function canDelete($record): bool
     {
         return auth()->user()?->hasRole('admin') ?? false;

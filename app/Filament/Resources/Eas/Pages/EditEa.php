@@ -4,6 +4,10 @@ namespace App\Filament\Resources\Eas\Pages;
 
 use App\Actions\GenerateEaContent;
 use App\Filament\Resources\Eas\EaResource;
+use App\Filament\Resources\ProductPages\ProductPageResource;
+use App\Filament\Resources\SetReviews\SetReviewResource;
+use App\Models\ProductPage;
+use App\Models\SetReview;
 use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ForceDeleteAction;
@@ -22,6 +26,24 @@ class EditEa extends EditRecord
     {
         return [
             ViewAction::make(),
+            Action::make('product_page')
+                ->label('Product Page')
+                ->icon(Heroicon::OutlinedDocumentText)
+                ->color('gray')
+                ->action(function (): void {
+                    $page = $this->record->productPage
+                        ?? ProductPage::create(['ea_id' => $this->record->id, 'status' => 'draft']);
+                    $this->redirect(ProductPageResource::getUrl('edit', ['record' => $page]));
+                }),
+            Action::make('set_review')
+                ->label('Set Review')
+                ->icon(Heroicon::OutlinedAdjustmentsHorizontal)
+                ->color('gray')
+                ->action(function (): void {
+                    $review = $this->record->setReview
+                        ?? SetReview::create(['ea_id' => $this->record->id]);
+                    $this->redirect(SetReviewResource::getUrl('edit', ['record' => $review]));
+                }),
             Action::make('generate_content')
                 ->label('Generate Content')
                 ->icon(Heroicon::OutlinedSparkles)

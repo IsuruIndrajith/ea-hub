@@ -28,6 +28,8 @@ class SetReviewResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'ea_id';
 
+    protected static bool $shouldRegisterNavigation = false;
+
     public static function form(Schema $schema): Schema
     {
         return SetReviewForm::configure($schema);

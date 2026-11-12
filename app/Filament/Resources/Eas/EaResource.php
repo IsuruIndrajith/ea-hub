@@ -6,6 +6,7 @@ use App\Filament\Resources\Eas\Pages\CreateEa;
 use App\Filament\Resources\Eas\Pages\EditEa;
 use App\Filament\Resources\Eas\Pages\ListEas;
 use App\Filament\Resources\Eas\Pages\ViewEa;
+use App\Filament\Resources\Eas\RelationManagers\GeneratedContentsRelationManager;
 use App\Filament\Resources\Eas\RelationManagers\SignalsRelationManager;
 use App\Filament\Resources\Eas\Schemas\EaForm;
 use App\Filament\Resources\Eas\Schemas\EaInfolist;
@@ -46,6 +47,7 @@ class EaResource extends Resource
     {
         return [
             SignalsRelationManager::class,
+            GeneratedContentsRelationManager::class,
         ];
     }
 
