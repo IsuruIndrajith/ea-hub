@@ -66,9 +66,6 @@ class PublishToStore
             'myfxbook_link'    => $ea->myfxbook_link ?? '',
             'is_active'        => $overrides['is_active'] ?? true,
             'extended'         => $this->buildExtendedFromGenerated($pc, $productPage, $ea),
-            'set_review_data'  => empty($ct)
-                ? null
-                : $this->buildSetReviewFromGenerated($ct, $seo, $ea),
         ];
 
         return $this->client->syncProduct($payload);

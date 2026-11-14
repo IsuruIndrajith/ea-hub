@@ -45,4 +45,26 @@ class EaStoreClient
 
         return $response->json();
     }
+
+    /**
+     * Push a set review payload to the EA Store set-review sync endpoint.
+     *
+     * @param  array<string, mixed>  $payload
+     * @return array<string, mixed>
+     *
+     * @throws RuntimeException
+     */
+    public function syncSetReview(array $payload): array
+    {
+        $response = Http::withToken($this->token)
+            ->acceptJson()
+            ->post("{$this->baseUrl}/api/internal/set-reviews/sync", $payload);
+
+        if ($response->failed()) {
+            $message = $response->json('message') ?? "HTTP {$response->status()} from EA Store.";
+            throw new RuntimeException($message);
+        }
+
+        return $response->json();
+    }
 }

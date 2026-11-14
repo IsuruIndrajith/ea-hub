@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Eas\Pages;
 
 use App\Actions\GenerateEaContent;
+use App\Actions\PublishSetReviewToStore;
 use App\Actions\PublishToStore;
 use App\Filament\Resources\Eas\EaResource;
 use Filament\Actions\Action;
@@ -45,8 +46,8 @@ class ViewEa extends ViewRecord
                     }
                 }),
 
-            Action::make('publish_to_store')
-                ->label('Publish to Store')
+            Action::make('publish_product_page')
+                ->label('Publish Product Page')
                 ->icon(Heroicon::OutlinedArrowUpTray)
                 ->color('warning')
                 ->requiresConfirmation(false)
@@ -83,14 +84,14 @@ class ViewEa extends ViewRecord
                             'is_active'        => $isActive,
                         ]);
 
-                        $storeUrl  = rtrim(config('services.ea_store.url', env('STORE_API_URL', '')), '/');
-                        $token     = env('INTERNAL_API_KEY', '');
+                        $storeUrl   = rtrim(config('services.ea_store.url', env('STORE_API_URL', '')), '/');
+                        $token      = env('INTERNAL_API_KEY', '');
                         $previewUrl = "{$storeUrl}/product/{$this->record->slug}?preview_token={$token}";
 
                         Notification::make()
-                            ->title($isActive ? 'Published to EA Store' : 'Saved as draft in EA Store')
+                            ->title($isActive ? 'Product Page Published' : 'Product Page Saved as Draft')
                             ->body($isActive
-                                ? "\"{$this->record->name}\" is now live."
+                                ? "\"{$this->record->name}\" product page is now live."
                                 : "Draft saved. <a href=\"{$previewUrl}\" target=\"_blank\" class=\"underline\">Preview it here</a>."
                             )
                             ->success()
@@ -98,6 +99,38 @@ class ViewEa extends ViewRecord
                     } catch (\Throwable $e) {
                         Notification::make()
                             ->title('Publish failed')
+                            ->body($e->getMessage())
+                            ->danger()
+                            ->send();
+                    }
+                }),
+
+            Action::make('publish_set_review')
+                ->label('Publish Set Review')
+                ->icon(Heroicon::OutlinedDocumentText)
+                ->color('info')
+                ->requiresConfirmation(true)
+                ->modalHeading('Publish Set Review')
+                ->modalDescription('This will sync the set review blog post to the EA Store. You can publish or un-publish it in the EA Store Filament admin afterward.')
+                ->action(function (): void {
+                    try {
+                        $result = app(PublishSetReviewToStore::class)->run($this->record);
+
+                        $storeUrl = rtrim(config('services.ea_store.url', env('STORE_API_URL', '')), '/');
+                        $slug     = $result['data']['slug'] ?? null;
+                        $blogUrl  = $slug ? "{$storeUrl}/blog/{$slug}" : null;
+
+                        Notification::make()
+                            ->title('Set Review Synced')
+                            ->body($blogUrl
+                                ? "Saved to EA Store. <a href=\"{$blogUrl}\" target=\"_blank\" class=\"underline\">View /blog/{$slug}</a>. Toggle \"Published\" in EA Store admin to make it live."
+                                : 'Set review saved to EA Store as a draft. Toggle "Published" in EA Store admin to make it live.'
+                            )
+                            ->success()
+                            ->send();
+                    } catch (\Throwable $e) {
+                        Notification::make()
+                            ->title('Set Review Publish Failed')
                             ->body($e->getMessage())
                             ->danger()
                             ->send();
