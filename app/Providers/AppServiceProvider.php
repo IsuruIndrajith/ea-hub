@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Services\DeepSeekClient;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -21,6 +22,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Schema::defaultStringLength(191);
+
         if (! app()->runningInConsole()) {
             set_time_limit(300);
         }
