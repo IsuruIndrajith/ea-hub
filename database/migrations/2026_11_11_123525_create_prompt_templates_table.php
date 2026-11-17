@@ -10,8 +10,8 @@ return new class extends Migration
     {
         Schema::create('prompt_templates', function (Blueprint $table) {
             $table->id();
-            $table->string('type');                  // product_page | set_review
-            $table->string('name');                  // e.g. "Master Prompt"
+            $table->string('type', 50);              // product_page | set_review
+            $table->string('name', 100);             // e.g. "Master Prompt"
             $table->longText('body');                // full prompt text
             $table->string('version')->default('1.0');
             $table->boolean('is_active')->default(true);
